@@ -74,7 +74,7 @@ const colors=[
 const CAKE_VISUAL_WIDTH = 35;
 
       function createCandles(count) {
-        cake.innerHTML = "";
+   cake.innerHTML = "";
         const CANDLE_VISUAL_WIDTH = 2;
         const availableWidth = CAKE_VISUAL_WIDTH;
         const candlesPerRow = 6;
@@ -96,25 +96,20 @@ const CAKE_VISUAL_WIDTH = 35;
           const rowSpacing = availableWidth / (totalCandlesInRow + 1);
 
           const leftBase = rowSpacing * (col + 1) - CANDLE_VISUAL_WIDTH / 2 + 5;
-          const rowShift = row % 2 === 0 ? 0 : shiftAmount;
-
-          candle.style.position = "absolute";
-          candle.style.top = `${10 + row * 3}px`;
-          candle.style.left = `${leftBase - rowShift + 4}px`;
-
-          cake.appendChild(candle);
-        }
-      }
-
-      createCandles(candleCount);
-
+     const rowShift = row % 2 === 0 ? 0 : shiftAmount;
+     candle.style.position = "absolute";
+    candle.style.top = `${10 + row * 3}px`;
+    candle.style.left = `${leftBase - rowShift + 4}px`;
+  cake.appendChild(candle);
+ }
+     }
+  createCandles(candleCount);
 async function startMicDetection(){
-    try{
-        const stream =await navigator.mediaDevoces.getUserMedia({
+  try{
+     const stream =await navigator.mediaDevoces.getUserMedia({
 
-            audio:true,
-        });
-
+     audio:true,
+     });
 const audioContext=new(window.AudioContext || 
     window.webkitAudioContext
 )();
@@ -150,31 +145,45 @@ if(i<midpoint){
 
 }
 
+      const highAvg = highFreqSum / (dataArray.length / 2);
+        const lowAvg = lowFreqSum / (dataArray.length / 2);
+      const ratio = highAvg / (lowAvg + 1);
 
-}
+        const BLOW_RATIO_THRESHOLD = 0.5;
 
-
-
+      if (ratio > BLOW_RATIO_THRESHOLD && !blown) {
+      blown = true;
+      blowOutCandles();
     }
+     requestAnimationFrame(detectBlow);
+     }
 
+   detectBlow();
+ } catch (err) {
+  console.error("Mic access error:", err);
+    }
+  }
 
+    function blowOutCandles() {
+    const candles = document.querySelectorAll(".candle");
+    candles.forEach((candle) => {
+       const delay = Math.random() * 1000;
+      setTimeout(() => {
+         colors.forEach((color) => {
+            if (candle.classList.contains(color)) {
+                candle.classList.add("blown");
+              }
+            });
+          }, delay);
+        });
 
-
-
-
-
-
-}
-
-
-
-
-
+        
+     setTimeout(() => {
+ const subTitle = document.getElementById("subTitle");
+ subTitle.textContent = `Yayy! Wishing you the happiest birthday ever!! 🎉`;
+      }, 1200);
+      }
 </script>
-
-
-
-
 
 </body>
 
